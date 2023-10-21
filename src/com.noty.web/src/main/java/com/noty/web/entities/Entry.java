@@ -12,7 +12,6 @@ public class Entry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique=true)
     private String description;
 
     private boolean isDone;
@@ -20,6 +19,7 @@ public class Entry {
     @ManyToOne
     private User CreatedBy;
 
-
+    @ManyToOne
+    private EntryList list;
 
 }
