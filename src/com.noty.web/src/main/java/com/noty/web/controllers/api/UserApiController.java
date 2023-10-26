@@ -1,6 +1,8 @@
 package com.noty.web.controllers.api;
 
+import com.noty.web.NotyException;
 import com.noty.web.model.Credentials;
+import com.noty.web.model.NotyUser;
 import com.noty.web.services.UserProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +18,8 @@ public class UserApiController {
     private final UserProvider userProvider;
 
     @PostMapping("/")
-    public void createUser(@RequestBody Credentials credentials) {
+    public NotyUser createUser(@RequestBody Credentials credentials) throws NotyException {
+        return userProvider.createUser(credentials);
 
     }
 

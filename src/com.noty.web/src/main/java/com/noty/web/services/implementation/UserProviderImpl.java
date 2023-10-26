@@ -1,6 +1,7 @@
 package com.noty.web.services.implementation;
 
 import com.noty.web.NotyException;
+import com.noty.web.NotyValidationException;
 import com.noty.web.components.DateTime;
 import com.noty.web.components.PasswordUtil;
 import com.noty.web.entities.User;
@@ -27,7 +28,7 @@ public class UserProviderImpl implements UserProvider {
             throw new IllegalArgumentException("Credentials must not be null.");
 
         if (!credentials.isValid())
-            throw new NotyException("Invalid credentials supplied.");
+            throw new NotyValidationException("Invalid credentials supplied.");
 
         String token = passwordUtil.createHash(credentials.getPassword());
         User user = new User(
