@@ -16,7 +16,7 @@ public class UserApiController {
     private final UserProvider userProvider;
 
     @PostMapping("/")
-    public void createUser(@RequestBody Credentials) {
+    public void createUser(@RequestBody Credentials credentials) {
 
     }
 
