@@ -18,6 +18,10 @@ public class NotySecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/**")
                         .permitAll()
                 )
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.GET, "/**")
+                        .authenticated()
+                )
                 .build();
     }
 }
