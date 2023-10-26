@@ -1,4 +1,4 @@
-package com.noty.web.util;
+package com.noty.web.components;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;

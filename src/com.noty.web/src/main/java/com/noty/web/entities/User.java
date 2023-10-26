@@ -20,4 +20,10 @@ public class User {
     private String token;
 
     private Date createdAt;
+
+    public User(String email, String token, Date createdAt) {
+        this.email = email;
+        this.token = token;
+        this.createdAt = createdAt;
+    }
 }
