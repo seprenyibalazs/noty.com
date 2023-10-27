@@ -20,9 +20,9 @@ public class UserApiController {
 
     }
 
-    @GetMapping(value = "/")
-    public NotyUser getCurrentUser() {
-        return null;
+    @GetMapping(value = "/{id}")
+    public NotyUser getUser(String id) {
+        return id == "me" ? null : null;
     }
 
 }
