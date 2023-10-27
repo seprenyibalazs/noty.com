@@ -1,6 +1,7 @@
 package com.noty.web.handlers;
 
 import com.noty.web.NotyAuthorizationException;
+import com.noty.web.NotyEntityNotFoundException;
 import com.noty.web.NotyValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,6 +22,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         } else if (ex instanceof NotyAuthorizationException) {
             return statusResult(401, ex);
+
+        } else if (ex instanceof NotyEntityNotFoundException) {
+            return statusResult(404, ex);
 
         } else {
             return statusResult(500, ex);

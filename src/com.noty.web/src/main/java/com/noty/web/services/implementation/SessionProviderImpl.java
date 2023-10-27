@@ -5,10 +5,8 @@ import com.noty.web.components.JwtUtil;
 import com.noty.web.components.PasswordUtil;
 import com.noty.web.entities.User;
 import com.noty.web.model.Credentials;
-import com.noty.web.model.NotyUser;
 import com.noty.web.services.SessionProvider;
 import com.noty.web.services.UserProvider;
-import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +30,7 @@ public class SessionProviderImpl implements SessionProvider {
         if (!passwordUtil.verifyHash(user.getToken(), credentials.getPassword()))
             throw new NotyAuthorizationException("Invalid password.");
 
-        return jwtUtil.generate(user, new HashMap<>());
+        return jwtUtil.encode(user, new HashMap<>());
     }
 
 }

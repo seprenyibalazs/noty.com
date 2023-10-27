@@ -2,9 +2,10 @@ package com.noty.web.components;
 
 
 import com.noty.web.entities.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +13,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.security.SecureRandom;
-import java.security.spec.KeySpec;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -35,32 +33,44 @@ public class JwtUtil {
 
     public byte[] secretAsKey() {
         byte[] key = secret.getBytes();
-        SecureRandom random = new SecureRandom(key);
-
         byte[] result = new byte[KEY_LEN];
-        int p = Math.min(result.length, key.length);
-        System.arraycopy(key, 0, result, 0, p);
-        if (p < result.length) {
-            byte[] padding = new byte[result.length - p];
-            random.nextBytes(padding);
-            System.arraycopy(padding, 0, result, p, padding.length);
+        int p = 0;
+        while (p < key.length) {
+            int l = Math.min(key.length, result.length - p);
+            System.arraycopy(key, 0, result, p, l);
+            p += l;
         }
 
         return result;
     }
 
-    public String generate(User user, Map<String, String> claims) {
+    public String encode(User user, Map<String, String> claims) {
         Date now = dateTime.now();
         Date expires = new Date(now.getTime() + TOKEN_TTL);
         Key secretKey = new SecretKeySpec(secretAsKey(), "HmacSHA512");
 
         return Jwts.builder()
                 .claims(claims)
+                .subject(user.getEmail())
                 .issuer("https://noty.com")
                 .issuedAt(now)
                 .expiration(expires)
                 .signWith(secretKey)
                 .compact();
     }
+
+    public Claims decode(String jwt) {
+        SecretKey secretKey = new SecretKeySpec(secretAsKey(), "HmacSHA512");
+
+        Jws<Claims> claims = Jwts.parser()
+                .verifyWith(secretKey)
+                .decryptWith(secretKey)
+                .build()
+                .parseSignedClaims(jwt);
+
+        return claims.getPayload();
+
+    }
+
 
 }

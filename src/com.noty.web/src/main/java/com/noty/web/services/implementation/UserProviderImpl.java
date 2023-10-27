@@ -1,5 +1,6 @@
 package com.noty.web.services.implementation;
 
+import com.noty.web.NotyEntityNotFoundException;
 import com.noty.web.NotyException;
 import com.noty.web.NotyValidationException;
 import com.noty.web.components.DateTime;
@@ -37,6 +38,15 @@ public class UserProviderImpl implements UserProvider {
                 dateTime.now()
         );
         userRepository.save(user);
+
+        return NotyUser.fromUser(user);
+    }
+
+    @Override
+    public NotyUser findByEmail(String email) throws NotyEntityNotFoundException {
+        User user = userRepository.findUserByEmail(email);
+        if (user == null)
+            throw new NotyEntityNotFoundException("User was not found by e-mail address.");
 
         return NotyUser.fromUser(user);
     }
