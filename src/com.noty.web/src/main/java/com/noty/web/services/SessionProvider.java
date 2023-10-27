@@ -6,5 +6,5 @@ import com.noty.web.model.NotyUser;
 
 public interface SessionProvider {
 
-    NotyUser authenticate(Credentials credentials) throws NotyAuthorizationException;
+    String authenticate(Credentials credentials) throws NotyAuthorizationException;
 }

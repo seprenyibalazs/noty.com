@@ -10,7 +10,7 @@ public class PasswordUtil {
 
     private static final int SALT_LENGTH = 10;
     private static final int ITERATIONS = 64000;
-    @Value("${noty.security.secret}")
+    @Value("${noty.security.token_secret}")
     private String secret;
 
     private PasswordEncoder getEncoder() {

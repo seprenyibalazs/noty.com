@@ -18,7 +18,7 @@ public class AuthenticationApiController {
     private final SessionProvider sessionProvider;
 
     @PostMapping("/auth")
-    public Object Authenticate(@RequestBody Credentials credentials) throws NotyException {
+    public String Authenticate(@RequestBody Credentials credentials) throws NotyException {
         if (credentials == null || !credentials.isValid())
             throw new NotyValidationException("Insufficient credentials.");
 

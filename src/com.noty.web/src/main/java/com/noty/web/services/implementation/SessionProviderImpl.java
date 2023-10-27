@@ -1,14 +1,18 @@
 package com.noty.web.services.implementation;
 
 import com.noty.web.NotyAuthorizationException;
+import com.noty.web.components.JwtUtil;
 import com.noty.web.components.PasswordUtil;
 import com.noty.web.entities.User;
 import com.noty.web.model.Credentials;
 import com.noty.web.model.NotyUser;
 import com.noty.web.services.SessionProvider;
 import com.noty.web.services.UserProvider;
+import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 @Service
 @AllArgsConstructor
@@ -18,7 +22,9 @@ public class SessionProviderImpl implements SessionProvider {
 
     private final PasswordUtil passwordUtil;
 
-    public NotyUser authenticate(Credentials credentials) throws NotyAuthorizationException {
+    private final JwtUtil jwtUtil;
+
+    public String authenticate(Credentials credentials) throws NotyAuthorizationException {
         User user = userProvider.findUserByCredentials(credentials);
         if (user == null)
             throw new NotyAuthorizationException("User not found.");
@@ -26,7 +32,7 @@ public class SessionProviderImpl implements SessionProvider {
         if (!passwordUtil.verifyHash(user.getToken(), credentials.getPassword()))
             throw new NotyAuthorizationException("Invalid password.");
 
-        return NotyUser.fromUser(user);
+        return jwtUtil.generate(user, new HashMap<>());
     }
 
 }
