@@ -40,4 +40,10 @@ public class UserProviderImpl implements UserProvider {
 
         return NotyUser.fromUser(user);
     }
+
+    @Override
+    public User findUserByCredentials(Credentials credentials) {
+        return userRepository.findUserByEmail(credentials.getEmail());
+
+    }
 }
