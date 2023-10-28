@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "lists")
-public class EntryList {
+public class NotyList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

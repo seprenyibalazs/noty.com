@@ -21,7 +21,7 @@ public class ListAccess {
     @ManyToOne
     @MapsId("listId")
     @JoinColumn(name = "list_id")
-    private EntryList list;
+    private NotyList list;
 
     @ManyToOne
     @MapsId("userId")
@@ -30,12 +30,14 @@ public class ListAccess {
 
     private Date createdAt;
 
-    public ListAccess(EntryList list, User user, Date createdAt) {
+    public ListAccess(NotyList list, User user, Date createdAt) {
         this.id = ListAccessId.builder()
                 .listId(list.getId())
                 .userId(user.getId())
                 .build();
 
+        this.user = user;
+        this.list = list;
         this.createdAt = createdAt;
     }
 

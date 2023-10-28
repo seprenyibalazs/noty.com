@@ -10,6 +10,7 @@ import com.noty.web.model.Credentials;
 import com.noty.web.model.NotyUser;
 import com.noty.web.repsitories.UserRepository;
 import com.noty.web.services.UserProvider;
+import com.noty.web.services.security.NotyUserDetails;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,5 +56,17 @@ public class UserProviderImpl implements UserProvider {
     public User findUserByCredentials(Credentials credentials) {
         return userRepository.findUserByEmail(credentials.getEmail());
 
+    }
+
+    @Override
+    public User findById(long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public User fromDetails(NotyUserDetails details) {
+        return details == null || details.getUser() == null
+                ? null
+                : findById(details.getUser().getId());
     }
 }

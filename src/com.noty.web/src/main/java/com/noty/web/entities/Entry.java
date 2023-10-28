@@ -20,6 +20,6 @@ public class Entry {
     private User CreatedBy;
 
     @ManyToOne
-    private EntryList list;
+    private NotyList list;
 
 }

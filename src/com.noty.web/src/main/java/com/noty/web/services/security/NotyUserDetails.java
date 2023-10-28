@@ -1,18 +1,26 @@
 package com.noty.web.services.security;
 
+import com.noty.web.model.NotyUser;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class JwtUserDetails implements UserDetails {
+public class NotyUserDetails implements UserDetails {
 
 
     private final Claims claims;
 
-    public JwtUserDetails(Claims claims) {
+    private final NotyUser user;
+
+    public NotyUserDetails(Claims claims) {
         this.claims = claims;
+        this.user = NotyUser.fromClaims(claims);
+    }
+
+    public NotyUser getUser() {
+        return user;
     }
 
     @Override

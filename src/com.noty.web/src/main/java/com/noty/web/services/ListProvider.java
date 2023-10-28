@@ -1,11 +1,11 @@
 package com.noty.web.services;
 
-import com.noty.web.entities.EntryList;
-import com.noty.web.entities.User;
-import com.noty.web.model.NotyUser;
+import com.noty.web.NotyException;
+import com.noty.web.entities.NotyList;
+import com.noty.web.services.security.NotyUserDetails;
 
 public interface ListProvider {
 
-    EntryList createList(User owner, String title);
+    NotyList createList(NotyUserDetails owner, String title) throws NotyException;
 
 }

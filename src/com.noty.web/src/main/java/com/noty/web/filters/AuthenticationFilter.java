@@ -1,7 +1,7 @@
 package com.noty.web.filters;
 
 import com.noty.web.components.JwtUtil;
-import com.noty.web.services.security.JwtUserDetails;
+import com.noty.web.services.security.NotyUserDetails;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,11 +17,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @AllArgsConstructor
 public class AuthenticationFilter extends OncePerRequestFilter {
+
+    private static final Pattern pattern = Pattern.compile("-?\\d+");
 
     private JwtUtil jwtUtil;
 
@@ -49,13 +51,11 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     private void applyJwtAuthorization(HttpServletRequest request) {
         String jwt = getJwtToken(request);
-        if (jwt == null) {
-            logger.debug("JWT bearer token is empty for the request.");
+        Claims claims = tryDecodeJwt(jwt);
+        if (claims == null)
             return;
-        }
 
-        Claims claims = jwtUtil.decode(jwt);
-        JwtUserDetails user = new JwtUserDetails(claims);
+        NotyUserDetails user = new NotyUserDetails(claims);
 
         WebAuthenticationDetails details = new WebAuthenticationDetailsSource()
                 .buildDetails(request);
@@ -66,5 +66,18 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         );
         authentication.setDetails(details);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    private Claims tryDecodeJwt(String jwt) {
+        if (jwt == null) {
+            logger.debug("JWT bearer token is empty for the request.");
+            return null;
+        }
+
+        Claims claims = jwtUtil.decode(jwt);
+        if (!pattern.matcher(claims.getId()).matches())
+            return null;
+
+        return claims;
     }
 }
