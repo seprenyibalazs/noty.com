@@ -1,4 +1,4 @@
-package com.noty.web.model;
+package com.noty.web.framework.model;
 
 public interface Validatable {
 

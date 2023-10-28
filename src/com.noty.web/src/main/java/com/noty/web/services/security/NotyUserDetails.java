@@ -1,6 +1,5 @@
 package com.noty.web.services.security;
 
-import com.noty.web.model.NotyUser;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,15 +11,12 @@ public class NotyUserDetails implements UserDetails {
 
     private final Claims claims;
 
-    private final NotyUser user;
-
     public NotyUserDetails(Claims claims) {
         this.claims = claims;
-        this.user = NotyUser.fromClaims(claims);
     }
 
-    public NotyUser getUser() {
-        return user;
+    public long getUserId() {
+        return Long.parseLong(claims.getId());
     }
 
     @Override

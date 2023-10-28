@@ -8,4 +8,6 @@ public interface ListProvider {
 
     NotyList createList(NotyUserDetails owner, String title) throws NotyException;
 
+    NotyList findById(long id);
+
 }
