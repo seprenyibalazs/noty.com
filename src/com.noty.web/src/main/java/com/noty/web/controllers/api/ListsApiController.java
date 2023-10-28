@@ -5,7 +5,7 @@ import com.noty.web.controllers.api.model.requests.NotyListCreateModel;
 import com.noty.web.controllers.api.model.response.NotyListResponse;
 import com.noty.web.entities.NotyList;
 import com.noty.web.services.ListProvider;
-import com.noty.web.services.security.NotyUserDetails;
+import com.noty.web.services.security.NotyImpersonation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,10 +22,10 @@ public class ListsApiController {
 
     @PostMapping("/")
     public NotyListResponse createList(
-            @AuthenticationPrincipal NotyUserDetails userDetails,
+            @AuthenticationPrincipal NotyImpersonation impersonation,
             @RequestBody NotyListCreateModel model
     ) throws NotyException {
-        NotyList list = listProvider.createList(userDetails, model.getTitle());
+        NotyList list = listProvider.createList(impersonation, model.getTitle());
         return NotyListResponse.fromList(list);
     }
 

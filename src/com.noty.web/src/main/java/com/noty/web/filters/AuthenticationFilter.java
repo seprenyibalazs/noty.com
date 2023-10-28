@@ -1,7 +1,7 @@
 package com.noty.web.filters;
 
 import com.noty.web.components.JwtUtil;
-import com.noty.web.services.security.NotyUserDetails;
+import com.noty.web.services.security.NotyImpersonation;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -55,7 +55,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         if (claims == null)
             return;
 
-        NotyUserDetails user = new NotyUserDetails(claims);
+        NotyImpersonation user = NotyImpersonation.fromClaims(claims);
 
         WebAuthenticationDetails details = new WebAuthenticationDetailsSource()
                 .buildDetails(request);

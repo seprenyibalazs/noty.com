@@ -10,7 +10,7 @@ import com.noty.web.repsitories.ListAccessRepository;
 import com.noty.web.repsitories.ListRepository;
 import com.noty.web.services.ListProvider;
 import com.noty.web.services.UserProvider;
-import com.noty.web.services.security.NotyUserDetails;
+import com.noty.web.services.security.NotyImpersonation;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,8 +30,8 @@ public class ListProviderImpl implements ListProvider {
     private final UserProvider userProvider;
 
     @Transactional
-    public NotyList createList(NotyUserDetails owner, String title) throws NotyException {
-        User user = userProvider.fromDetails(owner);
+    public NotyList createList(NotyImpersonation impersonation, String title) throws NotyException {
+        User user = userProvider.fromDetails(impersonation);
         if (user == null)
             throw new NotyAuthorizationException("You are not permitted to create a list.");
 
@@ -49,5 +49,10 @@ public class ListProviderImpl implements ListProvider {
         listAccessRepository.save(access);
 
         return list;
+    }
+
+    @Override
+    public NotyList findById(long id) {
+        return null;
     }
 }

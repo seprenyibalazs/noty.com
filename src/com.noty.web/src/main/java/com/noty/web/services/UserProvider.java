@@ -5,7 +5,6 @@ import com.noty.web.NotyException;
 import com.noty.web.entities.User;
 import com.noty.web.services.security.Credentials;
 import com.noty.web.services.security.NotyImpersonation;
-import com.noty.web.services.security.NotyUserDetails;
 
 public interface UserProvider {
 
@@ -17,5 +16,5 @@ public interface UserProvider {
 
     User findById(long id);
 
-    User fromDetails(NotyUserDetails details);
+    User fromDetails(NotyImpersonation details);
 }
