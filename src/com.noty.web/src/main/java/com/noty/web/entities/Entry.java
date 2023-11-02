@@ -1,10 +1,14 @@
 package com.noty.web.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "entries")
 public class Entry {
 
@@ -17,9 +21,19 @@ public class Entry {
     private boolean isDone;
 
     @ManyToOne
-    private User CreatedBy;
+    private User createdBy;
 
     @ManyToOne
     private NotyList list;
+
+    public Entry(
+            NotyList list,
+            String description,
+            User owner
+    ) {
+        this.list = list;
+        this.description = description;
+        this.createdBy = owner;
+    }
 
 }

@@ -1,7 +1,9 @@
 package com.noty.web.services;
 
 import com.noty.web.NotyException;
+import com.noty.web.entities.Entry;
 import com.noty.web.entities.NotyList;
+import com.noty.web.entities.User;
 import com.noty.web.services.security.NotyImpersonation;
 
 public interface ListProvider {
@@ -13,4 +15,10 @@ public interface ListProvider {
     NotyList[] findAccessibleLists(long userId);
 
     void deleteList(NotyList list);
+
+    Entry createEntry(User owner, NotyList list, String description);
+
+    Entry findEntryById(long id, boolean mandatory) throws NotyException;
+
+    void deleteEntry(Entry entry);
 }

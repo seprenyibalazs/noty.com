@@ -4,9 +4,11 @@ import com.noty.web.NotyAuthorizationException;
 import com.noty.web.NotyEntityNotFoundException;
 import com.noty.web.NotyException;
 import com.noty.web.components.DateTime;
+import com.noty.web.entities.Entry;
 import com.noty.web.entities.ListAccess;
 import com.noty.web.entities.NotyList;
 import com.noty.web.entities.User;
+import com.noty.web.repsitories.EntryRepository;
 import com.noty.web.repsitories.ListAccessRepository;
 import com.noty.web.repsitories.ListRepository;
 import com.noty.web.services.ListProvider;
@@ -29,6 +31,8 @@ public class ListProviderImpl implements ListProvider {
     private final ListAccessRepository listAccessRepository;
 
     private final UserProvider userProvider;
+
+    private final EntryRepository entryRepository;
 
     @Transactional
     public NotyList createList(NotyImpersonation impersonation, String title) throws NotyException {
@@ -61,6 +65,32 @@ public class ListProviderImpl implements ListProvider {
     @Override
     public void deleteList(NotyList list) {
         listRepository.delete(list);
+    }
+
+    @Override
+    public Entry createEntry(User owner, NotyList list, String description) {
+        Entry newEntry = new Entry(
+                list,
+                description,
+                owner
+        );
+        entryRepository.save(newEntry);
+
+        return newEntry;
+    }
+
+    @Override
+    public Entry findEntryById(long id, boolean mandatory) throws NotyException {
+        Entry entry = entryRepository.findById(id).orElse(null);
+        if (entry == null && mandatory)
+            throw new NotyEntityNotFoundException("The entry was not found.");
+
+        return entry;
+    }
+
+    @Override
+    public void deleteEntry(Entry entry) {
+        entryRepository.delete(entry);
     }
 
     @Override
