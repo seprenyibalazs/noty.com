@@ -46,6 +46,20 @@ public class ListsApiController {
         return NotyListResponse.fromList(list);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteList(
+            @AuthenticationPrincipal NotyImpersonation impersonation,
+            @PathVariable long id
+    ) throws NotyException {
+        NotyList list = listProvider.findById(id, true);
+        impersonation.assertWriteAccess(list);
+
+        listProvider.deleteList(list);
+
+        return ResponseEntity.noContent().build();
+
+    }
+
     @GetMapping()
     public NotyListResponse[] getAccessibleLists(
             @AuthenticationPrincipal NotyImpersonation impersonation

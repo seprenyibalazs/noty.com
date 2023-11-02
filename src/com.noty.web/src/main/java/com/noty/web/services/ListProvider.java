@@ -12,4 +12,5 @@ public interface ListProvider {
 
     NotyList[] findAccessibleLists(long userId);
 
+    void deleteList(NotyList list);
 }

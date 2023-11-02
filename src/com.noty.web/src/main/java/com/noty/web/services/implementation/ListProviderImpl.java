@@ -59,6 +59,11 @@ public class ListProviderImpl implements ListProvider {
     }
 
     @Override
+    public void deleteList(NotyList list) {
+        listRepository.delete(list);
+    }
+
+    @Override
     public NotyList findById(long id, boolean mandatory) throws NotyException {
         NotyList list = listRepository.findById(id).orElse(null);
         if (list == null && mandatory)

@@ -1,6 +1,7 @@
 package com.noty.web.entities;
 
 import com.noty.web.services.security.EntityPermission;
+import com.noty.web.services.security.OwnedEntity;
 import com.noty.web.services.security.SecuredEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "lists")
-public class NotyList implements SecuredEntity {
+public class NotyList implements OwnedEntity, SecuredEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,5 +47,10 @@ public class NotyList implements SecuredEntity {
         return accessControlList.stream()
                 .map(ListAccess::toPermission)
                 .toArray(EntityPermission[]::new);
+    }
+
+    @Override
+    public long getOwnerId() {
+        return this.getCreatedBy().getId();
     }
 }
