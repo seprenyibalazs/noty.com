@@ -1,6 +1,8 @@
 package com.noty.web.services.security;
 
 import com.noty.web.NotyAuthorizationException;
+import com.noty.web.NotyException;
+import com.noty.web.NotyForbiddenException;
 import com.noty.web.entities.User;
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
@@ -78,8 +80,8 @@ public class NotyImpersonation implements UserDetails {
                 .anyMatch(p -> p.getUserId() == id && p.isCanRead());
     }
 
-    public void assertReadAccess(SecuredEntity entity) throws NotyAuthorizationException {
+    public void assertReadAccess(SecuredEntity entity) throws NotyException {
         if (!hasReadAccess(entity))
-            throw new NotyAuthorizationException("You do not have access to this information.");
+            throw new NotyForbiddenException("You do not have access to this information.");
     }
 }
