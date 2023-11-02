@@ -8,6 +8,6 @@ public interface ListProvider {
 
     NotyList createList(NotyImpersonation impersonation, String title) throws NotyException;
 
-    NotyList findById(long id);
+    NotyList findById(long id, boolean mandatory) throws NotyException;
 
 }

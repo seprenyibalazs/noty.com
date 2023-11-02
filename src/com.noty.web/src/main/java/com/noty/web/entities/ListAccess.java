@@ -1,5 +1,6 @@
 package com.noty.web.entities;
 
+import com.noty.web.services.security.EntityPermission;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,13 @@ public class ListAccess {
         this.user = user;
         this.list = list;
         this.createdAt = createdAt;
+    }
+
+    public EntityPermission toPermission() {
+        return new EntityPermission(
+                user.getId(),
+                true
+        );
     }
 
 }

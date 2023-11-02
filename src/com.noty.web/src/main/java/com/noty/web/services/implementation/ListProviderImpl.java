@@ -1,6 +1,7 @@
 package com.noty.web.services.implementation;
 
 import com.noty.web.NotyAuthorizationException;
+import com.noty.web.NotyEntityNotFoundException;
 import com.noty.web.NotyException;
 import com.noty.web.components.DateTime;
 import com.noty.web.entities.ListAccess;
@@ -52,7 +53,12 @@ public class ListProviderImpl implements ListProvider {
     }
 
     @Override
-    public NotyList findById(long id) {
-        return null;
+    public NotyList findById(long id, boolean mandatory) throws NotyException {
+        NotyList list = listRepository.findById(id).orElse(null);
+        if (list == null && mandatory)
+            throw new NotyEntityNotFoundException("The list was not found.");
+
+        return list;
+
     }
 }

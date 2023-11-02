@@ -1,5 +1,6 @@
 package com.noty.web.services.security;
 
+import com.noty.web.NotyAuthorizationException;
 import com.noty.web.entities.User;
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 @Data
@@ -69,5 +71,15 @@ public class NotyImpersonation implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean hasReadAccess(SecuredEntity entity) {
+        return Arrays.stream(entity.getAcl())
+                .anyMatch(p -> p.getUserId() == id && p.isCanRead());
+    }
+
+    public void assertReadAccess(SecuredEntity entity) throws NotyAuthorizationException {
+        if (!hasReadAccess(entity))
+            throw new NotyAuthorizationException("You do not have access to this information.");
     }
 }
