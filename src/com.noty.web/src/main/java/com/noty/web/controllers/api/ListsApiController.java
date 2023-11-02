@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/list")
@@ -43,6 +44,15 @@ public class ListsApiController {
         impersonation.assertReadAccess(list);
 
         return NotyListResponse.fromList(list);
+    }
+
+    @GetMapping("/")
+    public NotyListResponse[] getAccessibleLists(
+            @AuthenticationPrincipal NotyImpersonation impersonation
+    ) {
+        return Arrays.stream(listProvider.findAccessibleLists(impersonation.getId()))
+                .map(NotyListResponse::fromList)
+                .toArray(NotyListResponse[]::new);
     }
 
 }

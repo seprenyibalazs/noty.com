@@ -10,4 +10,6 @@ public interface ListProvider {
 
     NotyList findById(long id, boolean mandatory) throws NotyException;
 
+    NotyList[] findAccessibleLists(long userId);
+
 }
