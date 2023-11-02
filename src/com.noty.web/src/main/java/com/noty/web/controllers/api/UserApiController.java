@@ -18,14 +18,14 @@ public class UserApiController {
 
     private final UserProvider userProvider;
 
-    @PostMapping(value = "/")
+    @PostMapping()
     public NotyUserResponse createUser(@RequestBody Credentials credentials) throws NotyException {
         NotyImpersonation impersonation = userProvider.createUser(credentials);
         return NotyUserResponse.fromImpersonation(impersonation);
 
     }
 
-    @GetMapping(value = "/")
+    @GetMapping()
     public NotyUserResponse getUser(@AuthenticationPrincipal UserDetails user) throws NotyEntityNotFoundException {
         NotyImpersonation impersonation = userProvider.findByEmail(user.getUsername());
         return NotyUserResponse.fromImpersonation(impersonation);

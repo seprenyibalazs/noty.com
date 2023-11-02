@@ -19,7 +19,7 @@ public class NotySecurityConfiguration {
 
     private static final String[] POST_WHITE_LIST = new String[]{
             "/api/auth",
-            "/api/user/"
+            "/api/user"
     };
 
     public NotySecurityConfiguration(

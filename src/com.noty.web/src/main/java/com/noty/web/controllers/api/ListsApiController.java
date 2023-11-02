@@ -21,7 +21,7 @@ public class ListsApiController {
 
     private final ListProvider listProvider;
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<?> createList(
             @AuthenticationPrincipal NotyImpersonation impersonation,
             UriComponentsBuilder uriBuilder,
@@ -46,7 +46,7 @@ public class ListsApiController {
         return NotyListResponse.fromList(list);
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public NotyListResponse[] getAccessibleLists(
             @AuthenticationPrincipal NotyImpersonation impersonation
     ) {
