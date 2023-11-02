@@ -1,5 +1,6 @@
-package com.noty.web.model;
+package com.noty.web.services.security;
 
+import com.noty.web.framework.model.Validatable;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 

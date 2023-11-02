@@ -4,7 +4,6 @@ package com.noty.web.components;
 import com.noty.web.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
-import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Map;
 
@@ -51,6 +49,7 @@ public class JwtUtil {
 
         return Jwts.builder()
                 .claims(claims)
+                .id(String.valueOf(user.getId()))
                 .subject(user.getEmail())
                 .issuer("https://noty.com")
                 .issuedAt(now)

@@ -15,12 +15,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class NotySecurityConfiguration {
 
-    private JwtUtil jwtUtil;
-
     private static final String[] POST_WHITE_LIST = new String[]{
             "/api/auth",
-            "/api/user/"
+            "/api/user"
     };
+    private final JwtUtil jwtUtil;
 
     public NotySecurityConfiguration(
             JwtUtil jwtUtil

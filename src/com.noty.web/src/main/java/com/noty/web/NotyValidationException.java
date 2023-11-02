@@ -2,6 +2,7 @@ package com.noty.web;
 
 import com.noty.web.NotyException;
 
+@HttpStatus(code = 400)
 public class NotyValidationException extends NotyException {
 
     public NotyValidationException() {

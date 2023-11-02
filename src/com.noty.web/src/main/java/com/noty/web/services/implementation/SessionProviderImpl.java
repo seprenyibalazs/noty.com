@@ -4,7 +4,7 @@ import com.noty.web.NotyAuthorizationException;
 import com.noty.web.components.JwtUtil;
 import com.noty.web.components.PasswordUtil;
 import com.noty.web.entities.User;
-import com.noty.web.model.Credentials;
+import com.noty.web.services.security.Credentials;
 import com.noty.web.services.SessionProvider;
 import com.noty.web.services.UserProvider;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,7 @@
 package com.noty.web.services;
 
 import com.noty.web.NotyAuthorizationException;
-import com.noty.web.model.Credentials;
-import com.noty.web.model.NotyUser;
+import com.noty.web.services.security.Credentials;
 
 public interface SessionProvider {
 
