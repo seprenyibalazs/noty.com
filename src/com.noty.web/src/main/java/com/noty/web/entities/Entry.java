@@ -26,6 +26,9 @@ public class Entry {
     @ManyToOne
     private NotyList list;
 
+    @Column(name = "display_order", columnDefinition = "INT DEFAULT 0")
+    private int order;
+
     public Entry(
             NotyList list,
             String description,

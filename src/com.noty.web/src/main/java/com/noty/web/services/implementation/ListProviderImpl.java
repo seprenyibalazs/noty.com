@@ -68,7 +68,9 @@ public class ListProviderImpl implements ListProvider {
     }
 
     @Override
-    public Entry createEntry(User owner, NotyList list, String description) {
+    public Entry createEntry(long ownerId, NotyList list, String description) {
+        User owner = userProvider.findById(ownerId);
+
         Entry newEntry = new Entry(
                 list,
                 description,

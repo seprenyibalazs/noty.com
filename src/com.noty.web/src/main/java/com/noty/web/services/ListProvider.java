@@ -16,7 +16,7 @@ public interface ListProvider {
 
     void deleteList(NotyList list);
 
-    Entry createEntry(User owner, NotyList list, String description);
+    Entry createEntry(long userId, NotyList list, String description);
 
     Entry findEntryById(long id, boolean mandatory) throws NotyException;
 
