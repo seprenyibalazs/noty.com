@@ -1,10 +1,14 @@
 package com.noty.web.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "entries")
 public class Entry {
 
@@ -17,9 +21,32 @@ public class Entry {
     private boolean isDone;
 
     @ManyToOne
-    private User CreatedBy;
+    private User createdBy;
 
     @ManyToOne
     private NotyList list;
 
+    @Column(name = "display_order", columnDefinition = "INT DEFAULT 0")
+    private int order;
+
+    public Entry(
+            NotyList list,
+            String description,
+            User owner
+    ) {
+        this.list = list;
+        this.description = description;
+        this.createdBy = owner;
+    }
+
+    public void trySetDescription(String description) {
+        if (description != null)
+            this.description = description;
+    }
+
+    public void trySetIsDone(Boolean isDone) {
+        if (isDone != null)
+            this.isDone = isDone;
+
+    }
 }
