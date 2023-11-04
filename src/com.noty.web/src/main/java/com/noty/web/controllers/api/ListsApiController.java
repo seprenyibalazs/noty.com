@@ -107,4 +107,22 @@ public class ListsApiController {
         return EntryResponse.fromEntry(entry);
     }
 
+    @DeleteMapping("/{listId}/entry/{entryId}")
+    public ResponseEntity<?> deleteEntry(
+            @AuthenticationPrincipal NotyImpersonation impersonation,
+            @PathVariable long listId,
+            @PathVariable long entryId
+    ) throws NotyException {
+        NotyList list = listProvider.findById(listId, true);
+        impersonation.assertWriteAccess(list);
+
+        Entry entry = listProvider.findEntryById(entryId, true);
+        if (entry.getList() == null || entry.getList().getId() != list.getId())
+            throw new NotyEntityNotFoundException("Entry was not found.");
+
+        listProvider.deleteEntry(entry);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

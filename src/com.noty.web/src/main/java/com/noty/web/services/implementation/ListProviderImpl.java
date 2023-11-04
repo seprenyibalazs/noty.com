@@ -63,7 +63,9 @@ public class ListProviderImpl implements ListProvider {
     }
 
     @Override
+    @Transactional
     public void deleteList(NotyList list) {
+        entryRepository.deleteByListId(list.getId());
         listRepository.delete(list);
     }
 

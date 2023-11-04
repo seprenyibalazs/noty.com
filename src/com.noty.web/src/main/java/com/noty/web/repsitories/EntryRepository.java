@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EntryRepository extends JpaRepository<Entry, Long> {
+
+    void deleteByListId(long listId);
+
 }
