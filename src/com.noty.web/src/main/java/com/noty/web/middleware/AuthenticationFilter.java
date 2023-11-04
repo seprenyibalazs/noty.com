@@ -1,4 +1,4 @@
-package com.noty.web.filters;
+package com.noty.web.middleware;
 
 import com.noty.web.components.JwtUtil;
 import com.noty.web.services.security.NotyImpersonation;
