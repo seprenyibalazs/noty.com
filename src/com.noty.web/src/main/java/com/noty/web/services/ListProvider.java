@@ -21,4 +21,6 @@ public interface ListProvider {
     Entry findEntryById(long id, boolean mandatory) throws NotyException;
 
     void deleteEntry(Entry entry);
+
+    void updateEntry(Entry entry);
 }

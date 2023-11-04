@@ -39,4 +39,14 @@ public class Entry {
         this.createdBy = owner;
     }
 
+    public void trySetDescription(String description) {
+        if (description != null)
+            this.description = description;
+    }
+
+    public void trySetIsDone(Boolean isDone) {
+        if (isDone != null)
+            this.isDone = isDone;
+
+    }
 }

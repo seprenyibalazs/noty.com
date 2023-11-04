@@ -125,4 +125,27 @@ public class ListsApiController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{listId}/entry/{entryId}")
+    public ResponseEntity<?> updateEntry(
+            @AuthenticationPrincipal NotyImpersonation impersonation,
+            @PathVariable long listId,
+            @PathVariable long entryId,
+            Boolean done,
+            String description
+    ) throws NotyException {
+        NotyList list = listProvider.findById(listId, true);
+        impersonation.assertWriteAccess(list);
+
+        Entry entry = listProvider.findEntryById(entryId, true);
+        if (entry.getList() == null || entry.getList().getId() != list.getId())
+            throw new NotyEntityNotFoundException("Entry was not found.");
+
+        entry.trySetDescription(description);
+        entry.trySetIsDone(done);
+
+        listProvider.updateEntry(entry);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -14,6 +14,7 @@ import com.noty.web.repsitories.ListRepository;
 import com.noty.web.services.ListProvider;
 import com.noty.web.services.UserProvider;
 import com.noty.web.services.security.NotyImpersonation;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -95,6 +96,14 @@ public class ListProviderImpl implements ListProvider {
     @Override
     public void deleteEntry(Entry entry) {
         entryRepository.delete(entry);
+    }
+
+    @Override
+    public void updateEntry(Entry entry) {
+        if (!entryRepository.existsById(entry.getId()))
+            throw new EntityNotFoundException("Entry was not found.");
+
+        entryRepository.save(entry);
     }
 
     @Override
