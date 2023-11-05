@@ -18,8 +18,8 @@ public class TransactionMiddlewareTests {
     @Test
     public void shouldSkipFoundRequest() throws ServletException, IOException {
         // Arrange:
-        TransactionTracker trackerMock = mock(TransactionTracker.class);
-        when(trackerMock.trackTransaction("sr-1", "tr-1"))
+        TransactionTracker tracker = mock(TransactionTracker.class);
+        when(tracker.trackTransaction("sr-1", "tr-1"))
                 .thenReturn(TrackingResult.FOUND);
 
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -30,7 +30,7 @@ public class TransactionMiddlewareTests {
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain chain = mock(FilterChain.class);
 
-        TransactionMiddleware.TransactionFilter filter = new TransactionMiddleware.TransactionFilter(trackerMock);
+        TransactionMiddleware.TransactionFilter filter = new TransactionMiddleware.TransactionFilter(tracker);
 
         // Act:
         filter.doFilter(
@@ -40,8 +40,46 @@ public class TransactionMiddlewareTests {
         );
 
         // Assert:
+        verify(tracker, times(1)).purgeTransactions();
+        verify(tracker, times(1)).trackTransaction("sr-1", "tr-1");
+
         verify(response, times(1)).setHeader("Transaction", "tr-1");
+        verify(response, times(1)).setStatus(304);
+
         verify(chain, times(0)).doFilter(request, response);
+    }
+
+    @Test
+    public void shouldProcessNewRequest() throws ServletException, IOException {
+        // Arrange:
+        TransactionTracker tracker = mock(TransactionTracker.class);
+        when(tracker.trackTransaction("sr-2", "tr-2"))
+                .thenReturn(TrackingResult.CREATED);
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader("Transaction")).thenReturn("tr-2");
+        when(request.getAttribute("serial")).thenReturn("sr-2");
+        when(request.getMethod()).thenReturn("POST");
+
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        FilterChain chain = mock(FilterChain.class);
+
+        TransactionMiddleware.TransactionFilter filter = new TransactionMiddleware.TransactionFilter(tracker);
+
+        // Act:
+        filter.doFilter(
+                request,
+                response,
+                chain
+        );
+
+        // Assert:
+        verify(tracker, times(1)).purgeTransactions();
+        verify(tracker, times(1)).trackTransaction("sr-2", "tr-2");
+
+        verify(response, times(1)).setHeader("Transaction", "tr-2");
+
+        verify(chain, times(1)).doFilter(request, response);
 
     }
 
