@@ -145,4 +145,34 @@ public class TransactionMiddlewareTests {
         verify(chain, times(1)).doFilter(request, response);
     }
 
+    @Test
+    public void shouldSkipNonTransactionalRequest() throws ServletException, IOException {
+        // Arrange:
+        TransactionTracker tracker = mock(TransactionTracker.class);
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getAttribute("serial")).thenReturn("sr-5");
+        when(request.getMethod()).thenReturn("POST");
+
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        FilterChain chain = mock(FilterChain.class);
+
+        TransactionMiddleware.TransactionFilter filter = new TransactionMiddleware.TransactionFilter(tracker);
+
+        // Act:
+        filter.doFilter(
+                request,
+                response,
+                chain
+        );
+
+        // Assert:
+        verify(tracker, times(0)).purgeTransactions();
+        verify(tracker, times(0)).trackTransaction(any(), any());
+
+        verify(response, times(0)).setHeader(any(), any());
+
+        verify(chain, times(1)).doFilter(request, response);
+    }
+
 }
