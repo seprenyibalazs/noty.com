@@ -55,6 +55,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         if (claims == null)
             return;
 
+        request.setAttribute("RequestSerial", claims.get("serial"));
+
         NotyImpersonation user = NotyImpersonation.fromClaims(claims);
 
         WebAuthenticationDetails details = new WebAuthenticationDetailsSource()

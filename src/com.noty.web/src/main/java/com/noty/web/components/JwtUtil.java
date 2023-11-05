@@ -13,6 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class JwtUtil {
@@ -46,6 +47,7 @@ public class JwtUtil {
         Date now = dateTime.now();
         Date expires = new Date(now.getTime() + TOKEN_TTL);
         Key secretKey = new SecretKeySpec(secretAsKey(), "HmacSHA512");
+        claims.put("serial", UUID.randomUUID().toString());
 
         return Jwts.builder()
                 .claims(claims)
