@@ -80,7 +80,69 @@ public class TransactionMiddlewareTests {
         verify(response, times(1)).setHeader("Transaction", "tr-2");
 
         verify(chain, times(1)).doFilter(request, response);
+    }
 
+    @Test
+    public void shouldSkipGetRequest() throws ServletException, IOException {
+        // Arrange:
+        TransactionTracker tracker = mock(TransactionTracker.class);
+        when(tracker.trackTransaction("sr-3", "tr-3"))
+                .thenReturn(TrackingResult.CREATED);
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader("Transaction")).thenReturn("tr-3");
+        when(request.getAttribute("serial")).thenReturn("sr-3");
+        when(request.getMethod()).thenReturn("GET");
+
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        FilterChain chain = mock(FilterChain.class);
+
+        TransactionMiddleware.TransactionFilter filter = new TransactionMiddleware.TransactionFilter(tracker);
+
+        // Act:
+        filter.doFilter(
+                request,
+                response,
+                chain
+        );
+
+        // Assert:
+        verify(tracker, times(0)).purgeTransactions();
+        verify(tracker, times(0)).trackTransaction("sr-3", "tr-3");
+
+        verify(response, times(1)).setHeader("Transaction", "tr-3");
+
+        verify(chain, times(1)).doFilter(request, response);
+    }
+
+    @Test
+    public void shouldSkipNotAuthenticatedRequest() throws ServletException, IOException {
+        // Arrange:
+        TransactionTracker tracker = mock(TransactionTracker.class);
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getHeader("Transaction")).thenReturn("tr-4");
+        when(request.getMethod()).thenReturn("POST");
+
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        FilterChain chain = mock(FilterChain.class);
+
+        TransactionMiddleware.TransactionFilter filter = new TransactionMiddleware.TransactionFilter(tracker);
+
+        // Act:
+        filter.doFilter(
+                request,
+                response,
+                chain
+        );
+
+        // Assert:
+        verify(tracker, times(0)).purgeTransactions();
+        verify(tracker, times(0)).trackTransaction(any(), any());
+
+        verify(response, times(1)).setHeader("Transaction", "tr-4");
+
+        verify(chain, times(1)).doFilter(request, response);
     }
 
 }
