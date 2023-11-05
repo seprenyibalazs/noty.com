@@ -46,7 +46,7 @@ public class TransactionMiddlewareTests {
         verify(response, times(1)).setHeader("Transaction", "tr-1");
         verify(response, times(1)).setStatus(304);
 
-        verify(chain, times(0)).doFilter(request, response);
+        verify(chain, times(0)).doFilter(any(), any());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class TransactionMiddlewareTests {
 
         // Assert:
         verify(tracker, times(0)).purgeTransactions();
-        verify(tracker, times(0)).trackTransaction("sr-3", "tr-3");
+        verify(tracker, times(0)).trackTransaction(any(), any());
 
         verify(response, times(1)).setHeader("Transaction", "tr-3");
 
