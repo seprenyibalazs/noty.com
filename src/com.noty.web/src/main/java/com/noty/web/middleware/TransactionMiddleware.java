@@ -26,6 +26,7 @@ public class TransactionMiddleware {
     public FilterRegistrationBean<TransactionFilter> transactionFilter() {
         FilterRegistrationBean<TransactionFilter> registration = new FilterRegistrationBean<>();
         registration.addUrlPatterns("/api/**");
+        registration.setOrder(Integer.MAX_VALUE);
         registration.setFilter(new TransactionFilter(tracker));
         registration.setName("Request transaction filter");
 
