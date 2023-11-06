@@ -1,4 +1,4 @@
-package com.noty.web.unittest.unittest;
+package com.noty.web.unittest;
 
 import com.noty.web.middleware.TransactionMiddleware;
 import com.noty.web.services.TrackingResult;
