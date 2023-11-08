@@ -6,7 +6,6 @@ import com.noty.web.integrationtests.util.Authenticator;
 import com.noty.web.integrationtests.util.SuppressingResponseErrorHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.StringUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -32,18 +31,18 @@ public class TransactionMiddlewareFilterTests {
     private static final String TEST_USER = "test@machines.noty.com";
     private static final String TEST_PWD = "secret";
 
-    private String token = null;
+    private static String token = null;
 
     @LocalServerPort
     private int port;
 
     @BeforeEach
     public void authenticate() {
-        if (!StringUtils.isBlank(token))
+        if (token != null)
             return;
 
         Authenticator authenticator = new Authenticator(port);
-        this.token = authenticator.createAndAuthenticate(
+        token = authenticator.createAndAuthenticate(
                 TEST_USER,
                 TEST_PWD
         );
