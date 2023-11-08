@@ -37,6 +37,7 @@ public class UserProviderImpl implements UserProvider {
                 token,
                 dateTime.now()
         );
+
         userRepository.save(user);
 
         return NotyImpersonation.fromUser(user);

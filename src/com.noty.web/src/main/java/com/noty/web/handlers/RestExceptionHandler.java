@@ -1,6 +1,8 @@
 package com.noty.web.handlers;
 
 import com.noty.web.HttpStatus;
+import com.noty.web.services.TransactionTracker;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,7 @@ import java.util.Map;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    protected final Log logger = LogFactory.getLog(getClass());
+    private final Log logger = LogFactory.getLog(getClass());
 
     @ExceptionHandler(value = {Exception.class})
     protected ResponseEntity<?> handleConflict(Exception ex, WebRequest request) {

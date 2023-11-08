@@ -19,7 +19,7 @@ public class UserApiController {
     private final UserProvider userProvider;
 
     @PostMapping()
-    public NotyUserResponse createUser(@RequestBody Credentials credentials) throws NotyException {
+    public NotyUserResponse createUser(@ModelAttribute Credentials credentials) throws NotyException {
         NotyImpersonation impersonation = userProvider.createUser(credentials);
         return NotyUserResponse.fromImpersonation(impersonation);
 
