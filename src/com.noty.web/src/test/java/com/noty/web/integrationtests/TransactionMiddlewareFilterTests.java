@@ -90,8 +90,38 @@ public class TransactionMiddlewareFilterTests {
     }
 
     @Test
-    public void shouldSkipGetRequest() {
+    public void shouldAllowGetRequest() {
+        // Arrange:
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Transaction", "trt-002");
+        headers.add("Authorization", String.format("Bearer %s", token));
 
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplateBuilder()
+                .errorHandler(new SuppressingResponseErrorHandler())
+                .build();
+
+        // Act:
+        restTemplate.exchange(
+                getUrl("api/user"),
+                HttpMethod.GET,
+                httpEntity,
+                String.class
+        );
+        ResponseEntity<String> response = restTemplate.exchange(
+                getUrl("api/user"),
+                HttpMethod.GET,
+                httpEntity,
+                String.class
+        );
+
+        // Assert:
+        assertEquals(200, response.getStatusCode().value());
+        List<String> transaction = response.getHeaders().get("Transaction");
+        assertNotNull(transaction);
+        assertEquals(1, transaction.size());
+        assertEquals("trt-002", transaction.get(0), "Invalid transaction code.");
     }
 
     @Test
