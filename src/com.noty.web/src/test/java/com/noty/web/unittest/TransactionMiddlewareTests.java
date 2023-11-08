@@ -1,5 +1,6 @@
 package com.noty.web.unittest;
 
+import com.noty.web.NotyException;
 import com.noty.web.middleware.TransactionMiddleware;
 import com.noty.web.services.TrackingResult;
 import com.noty.web.services.TransactionTracker;
@@ -16,7 +17,7 @@ import static org.mockito.Mockito.*;
 public class TransactionMiddlewareTests {
 
     @Test
-    public void shouldSkipFoundRequest() throws ServletException, IOException {
+    public void shouldSkipFoundRequest() throws ServletException, IOException, NotyException {
         // Arrange:
         TransactionTracker tracker = mock(TransactionTracker.class);
         when(tracker.trackTransaction("sr-1", "tr-1"))
@@ -50,7 +51,7 @@ public class TransactionMiddlewareTests {
     }
 
     @Test
-    public void shouldProcessNewRequest() throws ServletException, IOException {
+    public void shouldProcessNewRequest() throws ServletException, IOException, NotyException {
         // Arrange:
         TransactionTracker tracker = mock(TransactionTracker.class);
         when(tracker.trackTransaction("sr-2", "tr-2"))
@@ -83,7 +84,7 @@ public class TransactionMiddlewareTests {
     }
 
     @Test
-    public void shouldSkipGetRequest() throws ServletException, IOException {
+    public void shouldSkipGetRequest() throws ServletException, IOException, NotyException {
         // Arrange:
         TransactionTracker tracker = mock(TransactionTracker.class);
         when(tracker.trackTransaction("sr-3", "tr-3"))
@@ -116,7 +117,7 @@ public class TransactionMiddlewareTests {
     }
 
     @Test
-    public void shouldSkipNotAuthenticatedRequest() throws ServletException, IOException {
+    public void shouldSkipNotAuthenticatedRequest() throws ServletException, IOException, NotyException {
         // Arrange:
         TransactionTracker tracker = mock(TransactionTracker.class);
 
@@ -146,7 +147,7 @@ public class TransactionMiddlewareTests {
     }
 
     @Test
-    public void shouldSkipNonTransactionalRequest() throws ServletException, IOException {
+    public void shouldSkipNonTransactionalRequest() throws ServletException, IOException, NotyException {
         // Arrange:
         TransactionTracker tracker = mock(TransactionTracker.class);
 

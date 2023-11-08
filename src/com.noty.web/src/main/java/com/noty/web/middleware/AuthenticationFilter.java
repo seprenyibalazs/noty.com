@@ -2,6 +2,7 @@ package com.noty.web.middleware;
 
 import com.noty.web.components.JwtUtil;
 import com.noty.web.services.security.NotyImpersonation;
+import com.noty.web.util.RequestUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -55,7 +56,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         if (claims == null)
             return;
 
-        request.setAttribute("RequestSerial", claims.get("serial"));
+        String serial = claims.get("serial", String.class);
+        RequestUtil.setSerial(request, serial);
 
         NotyImpersonation user = NotyImpersonation.fromClaims(claims);
 

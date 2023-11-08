@@ -125,6 +125,46 @@ public class TransactionMiddlewareFilterTests {
     }
 
     @Test
+    public void shouldPreventRepeatedTransaction() {
+        // Arrange:
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Transaction", "trt-004");
+        headers.add("Authorization", String.format("Bearer %s", token));
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        form.add("title", "transaction-create-twice");
+
+        HttpEntity<Object> httpEntity = new HttpEntity<>(form, headers);
+
+        RestTemplate restTemplate = new RestTemplateBuilder()
+                .errorHandler(new SuppressingResponseErrorHandler())
+                .build();
+
+        // Act:
+        ResponseEntity<String> response = restTemplate.exchange(
+                getUrl("api/list"),
+                HttpMethod.POST,
+                httpEntity,
+                String.class
+        );
+        assertEquals(201, response.getStatusCode().value());
+
+        response = restTemplate.exchange(
+                getUrl("api/list"),
+                HttpMethod.POST,
+                httpEntity,
+                String.class
+        );
+
+        // Assert:
+        assertEquals(304, response.getStatusCode().value());
+        List<String> transaction = response.getHeaders().get("Transaction");
+        assertNotNull(transaction);
+        assertEquals(1, transaction.size());
+        assertEquals("trt-004", transaction.get(0), "Invalid transaction code.");
+    }
+
+    @Test
     public void shouldSkipNotAuthenticatedRequest() {
 
     }

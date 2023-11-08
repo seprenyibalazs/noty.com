@@ -1,12 +1,15 @@
 package com.noty.web.middleware;
 
+import com.noty.web.NotyException;
 import com.noty.web.services.TrackingResult;
 import com.noty.web.services.TransactionTracker;
+import com.noty.web.util.RequestUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +45,7 @@ public class TransactionMiddleware {
         private boolean doTransactionFilter(
                 HttpServletRequest request,
                 HttpServletResponse response
-        ) {
+        ) throws NotyException {
             String transaction = request.getHeader(TRANSACTION_HEADER);
             if (StringUtils.hasText(transaction))
                 response.setHeader("Transaction", transaction);
@@ -52,7 +55,7 @@ public class TransactionMiddleware {
             if ("GET".equalsIgnoreCase(request.getMethod()))
                 return false;
 
-            String serial = (String) request.getAttribute("serial");
+            String serial = RequestUtil.getSerial(request);
             if (!StringUtils.hasText(serial))
                 return false;
 
@@ -62,6 +65,7 @@ public class TransactionMiddleware {
             return result == TrackingResult.FOUND;
         }
 
+        @SneakyThrows
         @Override
         protected void doFilterInternal(
                 HttpServletRequest request,
