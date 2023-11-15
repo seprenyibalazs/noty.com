@@ -15,7 +15,7 @@ jobs:
       - checkout
       - run:
           name: "gradle build"
-          command: ../gradlew $GRADLE_OPTS clean bootJar
+          command: sh ./gradlew $GRADLE_OPTS clean bootJar
       - persist_to_workspace:
           root: .
           paths:
