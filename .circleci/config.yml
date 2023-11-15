@@ -20,6 +20,9 @@ jobs:
       - run:
           name: "say again"
           command: "echo Again"
+      - run:
+          name: "say ninja"
+          command: "echo Ninja"
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
