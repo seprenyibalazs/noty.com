@@ -12,7 +12,8 @@ jobs:
     docker:
       - image: cimg/openjdk:19.0.1
     steps:
-      - checkout
+      - checkout:
+          path: ~/gfa.noty.com
       - run:
           name: "gradle build"
           command: sh ./gradlew $GRADLE_OPTS clean bootJar
