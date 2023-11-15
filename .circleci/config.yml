@@ -6,17 +6,17 @@ version: 2.1
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
   build:
-    working_directory: ~/gfa.noty.com/src/com.noty.web
+    working_directory: ~/noty.com/src/com.noty.web
     environment:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
       - image: cimg/openjdk:19.0.1
     steps:
       - checkout:
-          path: ~/gfa.noty.com
+          path: ~/noty.com
       - run:
           name: "gradle build"
-          command: sh ./gradlew $GRADLE_OPTS clean bootJar
+          command: ./gradlew $GRADLE_OPTS clean bootJar
       - persist_to_workspace:
           root: .
           paths:
