@@ -6,7 +6,7 @@ version: 2.1
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
   build:
-    working_directory: ~./src/com.noty.web
+    working_directory: ~/src/com.noty.web
     environment:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
@@ -14,11 +14,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Generate Gradle Wrapper"
-          command: gradle wrapper --gradle-version 7.3.3
-      - run:
-          name: "Run Gradle Build with Wrapper"
-          command: ./gradlew $GRADLE_OPTS clean bootJar
+          name: "gradle build"
+          command: sh ./gradlew $GRADLE_OPTS clean bootJar
       - persist_to_workspace:
           root: .
           paths:
