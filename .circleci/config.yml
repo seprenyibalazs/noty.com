@@ -68,8 +68,8 @@ workflows:
     jobs:
       - build
       - test
-        requires:
-          - build
+          requires:
+            - build
   say-hello-workflow:
     jobs:
       - say-hello
