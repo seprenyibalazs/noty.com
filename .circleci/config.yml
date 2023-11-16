@@ -10,7 +10,7 @@ jobs:
     environment:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
-      - image: cimg/openjdk:17.0.4
+      - image: cimg/openjdk:19.0.1
     steps:
       - checkout:
           path: ~/noty.com
