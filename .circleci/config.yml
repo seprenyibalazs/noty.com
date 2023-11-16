@@ -67,7 +67,7 @@ workflows:
   publish-to-dockerhub:
     jobs:
       - build
-      - test
+      - test:
           requires:
             - build
   say-hello-workflow:
