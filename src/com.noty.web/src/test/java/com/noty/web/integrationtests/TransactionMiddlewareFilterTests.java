@@ -49,7 +49,7 @@ public class TransactionMiddlewareFilterTests {
     }
 
 
-    //@Test
+    @Test
     public void shouldSkipFoundRequest() {
     }
 
@@ -57,7 +57,7 @@ public class TransactionMiddlewareFilterTests {
         return String.format("http://localhost:%s/%s", port, endpoint);
     }
 
-    //@Test
+    @Test
     public void shouldProcessNewRequest() {
         // Arrange:
         HttpHeaders headers = new HttpHeaders();
@@ -89,7 +89,7 @@ public class TransactionMiddlewareFilterTests {
         assertEquals("trt-001", transaction.get(0), "Invalid transaction code.");
     }
 
-    //@Test
+    @Test
     public void shouldAllowGetRequest() {
         // Arrange:
         HttpHeaders headers = new HttpHeaders();
@@ -124,7 +124,7 @@ public class TransactionMiddlewareFilterTests {
         assertEquals("trt-002", transaction.get(0), "Invalid transaction code.");
     }
 
-    //@Test
+    @Test
     public void shouldPreventRepeatedTransaction() {
         // Arrange:
         HttpHeaders headers = new HttpHeaders();
@@ -164,12 +164,12 @@ public class TransactionMiddlewareFilterTests {
         assertEquals("trt-004", transaction.get(0), "Invalid transaction code.");
     }
 
-    //@Test
+    @Test
     public void shouldSkipNotAuthenticatedRequest() {
 
     }
 
-    //@Test
+    @Test
     public void shouldSkipNonTransactionalRequest() {
 
     }
