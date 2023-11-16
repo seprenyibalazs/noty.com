@@ -22,26 +22,26 @@ jobs:
           paths:
             - build
 
-    test:
-      working_directory: ~/noty.com/src/com.noty.web
-      environment:
-        GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
-      docker:
-        - image: cimg/openjdk:19.0.1
-      steps:
-        - checkout:
-            path: ~/noty.com
-            attach_workspace:
-              at: .
-        - run:
-            name: "gradle test"
-            command: sh ./gradlew $GRADLE_OPTS test
-        - store_test_results:
-            path: build/test-results
-        - persist_to_workspace:
-            root: .
-            paths:
-              - build
+  test:
+    working_directory: ~/noty.com/src/com.noty.web
+    environment:
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+    docker:
+      - image: cimg/openjdk:19.0.1
+    steps:
+      - checkout:
+          path: ~/noty.com
+          attach_workspace:
+            at: .
+      - run:
+          name: "gradle test"
+          command: sh ./gradlew $GRADLE_OPTS test
+      - store_test_results:
+          path: build/test-results
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
   say-hello:
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/configuration-reference/#executor-job
