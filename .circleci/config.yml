@@ -50,7 +50,7 @@ jobs:
     steps:
       - checkout:
           path: ~/noty.com
-      - setup_remoto_docker
+      - setup_remot_docker
       - attach_workspace:
           at: .
       - run:
