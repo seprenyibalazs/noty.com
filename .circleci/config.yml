@@ -58,7 +58,8 @@ jobs:
           command: docker build -t $DOCKER_REPO --pull --build-arg JAR_FILE=build/libs/noty_web-*.jar -f Dockerfile .
       - run:
           name: "dockerhub login"
-          command: echo $DOCKER_PAT | docker login -u $DOCKER_USR --password-stdin
+          command: docker login -u $DOCKER_USR -p $DOCKER_PAT
+          
       - run:
           name: "push image"
           command: docker image push --all-tags $DOCKER_REPO
