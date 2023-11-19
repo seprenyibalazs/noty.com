@@ -59,6 +59,9 @@ jobs:
       - run:
           name: "dockerhub login"
           command: echo "$DOCKER_PAT" | docker login -u $DOCKER_USR --password-stdin
+          environment:
+            DOCKER_PAT: $DOCKER_PAT
+            DOCKER_CLI_ACI=1
       - run:
           name: "push image"
           command: docker image push --all-tags $DOCKER_REPO
